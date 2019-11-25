@@ -41,3 +41,19 @@
     ```
     php artisan make:controller UserController
     ```
+#1) GET Method
+* Get user data using user id 
+    
+    ```
+    URL : http://127.0.0.1:8000/user/1
+    ```
+#2) Post Method
+* You can use Postman or any other tools for test 
+    ```
+    URL : http://127.0.0.1:8000/api/user/update
+    ```
+  
+<b>Parameters</b>
+- id
+- comments
+- password
