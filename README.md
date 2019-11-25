@@ -37,3 +37,7 @@
     ```
     php artisan db:seed --class=UsersTableSeeder
     ```
+* Create UsersController 
+    ```
+    php artisan make:controller UserController
+    ```
