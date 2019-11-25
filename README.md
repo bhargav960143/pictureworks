@@ -41,6 +41,10 @@
     ```
     php artisan make:controller UserController
     ```
+* Create Artisan Command  
+    ```
+    php artisan make:command Users
+    ```
 #1) GET Method
 * Get user data using user id 
     
@@ -53,7 +57,24 @@
     URL : http://127.0.0.1:8000/api/user/update
     ```
   
-<b>Parameters</b>
-- id
-- comments
-- password
+* <b>Parameters</b>
+    - id
+    - comments
+    - password
+
+* <b>Example:</b>
+
+    ```
+    { "id":"1", "comments":"ABC", "password":"720DF6C2482218518FA20FDC52D4DED7ECC043AB" }
+    ```
+
+#3) Artisan Command
+* Create Command for update user data
+    ``` 
+    php artisan user:update {id} {comments} 
+    ```
+
+* <b>Example:</b>
+    ```
+    php artisan user:update 1 XYZ
+    ```

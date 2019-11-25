@@ -14,7 +14,7 @@ class UserController extends Controller
     public function getUserById($id)
     {
         if (!is_numeric($id))
-            return response()->json('Invalid Id', 422);
+            return response()->json('Invalid id', 422);
 
         $userData = User::find($id);
         if (empty($userData))
@@ -31,25 +31,25 @@ class UserController extends Controller
         if (Helper::isJson($request->getContent())) {
             $requestData = json_decode($request->getContent(), 1);
         } else {
-            $requestData = $request->all();
+            return response()->json('Invalid POST JSON', 422);
         }
-        foreach ($requestData as $key => $data) {
-            if (empty($data))
-                return response()->json(ucfirst($key) . ' Required!', 422);
+
+        foreach(['password', 'id', 'comments'] as $key){
+            if($this->missing_post($requestData,$key) or !$key)
+                return response()->json('Missing key/value for "'.$key.'"', 422);
         }
+
+        if(strtoupper($requestData['password']) != '720DF6C2482218518FA20FDC52D4DED7ECC043AB')
+            return response()->json('Invalid password', 401);
+
+        if (!is_numeric($requestData['id']))
+            return response()->json('Invalid id', 422);
 
         $id = $requestData['id'];
         $comments = $requestData['comments'];
-        $password = $requestData['password'];
-        if (!is_numeric($id))
-            return response()->json('Invalid Id', 422);
-
-
-        if ($password != "720DF6C2482218518FA20FDC52D4DED7ECC043AB")
-            return response()->json('Invalid password', 401);
+        $password = strtoupper($requestData['password']);
 
         return $this->updateData($id, $comments, $password);
-
     }
 
     /*
@@ -64,5 +64,9 @@ class UserController extends Controller
         $userData->update(['comments' => $userData->comments . '
 ' . $comments]);
         return response()->json('OK', 200);
+    }
+
+    function missing_post($requestedData,$field){
+        return (!isset($requestedData[$field]) or !$requestedData[$field]);
     }
 }
